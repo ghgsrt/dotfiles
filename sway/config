@@ -1,0 +1,157 @@
+# Variables
+set $mod Mod4
+set $left Left
+set $down Down
+set $up Up
+set $right Right
+set $term footclient
+set $browser QT_QPA_PLATFORM=xcb qutebrowser
+set $bloated_browser google-chrome
+set $editor emacsclient -c
+set $menu rofi -show drun
+set $runner rofi -show run
+set $windower rofi -show window
+set $password_manager ~/.nix-profile/bin/1password
+set $gnome_schema org.gnome.desktop.interface
+
+# Locker configuration
+set $locker swaylock --screenshots \
+    --clock \
+    --indicator \
+    --indicator-radius 100 \
+    --indicator-thickness 7 \
+    --effect-blur 7x5 \
+    --effect-vignette 0.5:0.5 \
+    --ring-color bb00cc \
+    --key-hl-color 880033 \
+    --line-color 00000000 \
+    --inside-color 00000088 \
+    --separator-color 00000000 \
+    --grace 2 \
+    --fade-in 0.2
+
+# Gesture Bindings
+bindgesture swipe:3:right workspace next_on_output
+bindgesture swipe:3:left workspace prev_on_output
+bindgesture swipe:3:down move to scratchpad
+bindgesture swipe:3:up scratchpad show
+
+# Floating window rules
+for_window [app_id="org.kde.kcalc"] floating enable
+for_window [app_id="org.gnome.Calculator"] floating enable
+for_window [app_id="pavucontrol"] floating enable
+for_window [app_id="org.jointhefreeworld.metainfog"] floating enable
+
+# Visual Settings
+gaps inner 12
+gaps outer 8
+corner_radius 12
+shadows enable
+blur enable
+default_dim_inactive 0.2
+dim_inactive_colors.unfocused #000000FF
+dim_inactive_colors.urgent #900000FF
+
+# Window Colors
+# class                 border    background  text      indicator  child_border
+client.focused          #2B5B77   #2B5B77     #FFFFFF   #2B5B77    #2B5B77
+client.focused_inactive #2B5B77   #2B5B77     #FFFFFF   #2B5B77    #2B5B77
+client.unfocused       #1B1D1E   #1B1D1E     #808f80   #1B1D1E    #1B1D1E
+client.urgent          #b02930   #b02930     #cfdfd5   #900000    #900000
+client.placeholder     #000000   #0c0c0c     #cfdfd5   #000000    #0c0c0c
+
+# Keybindings
+bindsym $mod+Return exec $term
+bindsym $mod+t exec $term
+bindsym $mod+shift+period exec grimshot copy
+bindsym $mod+period exec grimshot save
+bindsym $mod+k kill
+bindsym $mod+l exec $locker
+bindsym $mod+slash exec $menu
+bindsym $mod+i exec $browser
+bindsym $mod+Shift+i exec $bloated_browser
+bindsym $mod+e exec $editor
+bindsym $mod+minus exec $password_manager
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+e exec swaynag -t warning \
+    -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' \
+    -B 'Yes, exit sway' 'swaymsg exit'
+
+# Focus and Movement
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+# Workspace Navigation
+bindsym $mod+p workspace prev_on_output
+bindsym $mod+n workspace next_on_output
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+# Move containers to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# Layout controls
+bindsym $mod+b splith
+bindsym $mod+v splitv
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+h layout toggle split
+bindsym $mod+f fullscreen
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+Shift+s scratchpad show
+
+# Special modes
+bindsym $mod+r exec $runner
+bindsym Alt+tab exec $windower
+
+# Resize mode
+mode "resize" {
+    bindsym $left resize shrink width 10px
+    bindsym $down resize grow height 10px
+    bindsym $up resize shrink height 10px
+    bindsym $right resize grow width 10px
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+Shift+r mode "resize"
+
+# Startup Programs
+exec lxsession
+exec mako
+exec emacs --daemon
+exec dbus-update-activation-environment --all
+exec waybar
+exec transmission-daemon
+exec ${TERMINAL:-foot} -s
+exec swww-daemon
+
+# Cursor configuration
+seat seat0 xcursor_theme Yaru 24

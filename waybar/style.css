@@ -1,0 +1,67 @@
+* {
+	font-size: 12px;
+	font-family: JetBrainsMono;
+	border: none;
+	border-radius: 0;
+}
+
+#window,
+#waybar {
+	background: #222222;
+	color: #bbbbbb;
+}
+
+#clock,
+#battery,
+#backlight,
+#pulseaudio {
+	padding: 0 10px;
+	margin: 0 4px;
+}
+
+#window,
+#workspaces {
+	padding: 0 0;
+	margin: 0 0;
+}
+
+/* This is for occupied (but not focused) workspaces */
+#workspaces button {
+	border: none;
+	border-radius: 0;
+	padding: 0 7px;
+	margin: 0;
+	color: #bbbbbb;
+	/* 4px is the white line height */
+	background: linear-gradient(transparent 0%, transparent calc(100% - 4px), white calc(100% - 4px), white 100%);
+	/* 57% is the white line width */
+	background-size: 57% 100%, 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center bottom;
+}
+
+#workspaces button.focused {
+	border: none;
+	border-radius: 0;
+	margin: 0;
+	padding: 0 7px;
+	color: #222222;
+	background: #bbbbbb;
+	border-bottom: 0px;
+}
+
+button:hover {
+	box-shadow: inherit;
+	text-shadow: inherit;
+	background: inherit;
+}
+
+#workspaces button.persistent {
+	border: 0;
+	background: #222222;
+}
+
+#battery.critical:not(.charging) {
+	background-color: darkred;
+	color: #ffffff;
+}
