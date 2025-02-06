@@ -1,0 +1,78 @@
+format = """
+$username$hostname$shell$shellvl$cmd_duration$fill$time$battery
+$directory$git_branch$git_commit$git_state$git_metrics$git_status$hg_branch$character
+"""
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+# Replace the "❯" symbol in the prompt with "➜"
+[character]                            # The name of the module we are configuring is "character"
+success_symbol = "[➜](bold green)"     # The "success_symbol" segment is being set to "➜" with the color "bold green"
+error_symbol = "[✗](bold red)"
+
+[fill]
+symbol = " "
+
+[username]
+disabled = false
+show_always = true
+style_root = "bold red dimmed"
+style_user = "bold italic purple"
+
+# shows the hostname on new lines
+[hostname]
+ssh_only = false
+# suffix = ">>"
+trim_at = ".companyname.com"
+disabled = false
+style = "bold italic cyan dimmed"
+
+[shell]
+disabled = false
+format = "[$indicator ](italic green)"
+
+[shlvl]
+disabled = false
+
+[cmd_duration]
+min_time = 0
+show_milliseconds = true
+disabled = false
+style = "italic yellow"
+
+[git_commit]
+commit_hash_length = 4
+
+[git_status]
+conflicted = "⚔️"
+ahead = "🏎💨 ×${count}"
+behind = "🐢 ×${count}"
+diverged = "🔱 🏎️ 💨 ×${ahead_count} 🐢 ×${behind_count}"
+untracked = "🤷‍ ×${count}"
+stashed = "📦 ×${count}"
+modified = "📝 ×${count}"
+staged.value = "++"
+staged.style = "green"
+renamed = "👅 ×${count}"
+deleted = "🗑 ×${count}"
+
+[memory_usage]
+disabled = true
+show_percentage = true
+show_swap = true
+threshold = -1
+symbol = " "
+separator = "/"
+style = "bold dimmed green"
+
+[time]
+time_format = "%Y-%m-%d %T%Z"
+format = '[🕙 $time]($style)'
+style = "italic dimmed white"
+disabled = false
+
+[battery]
+full_symbol = "🔋 "
+charging_symbol = "⚡️ "
+discharging_symbol = "💀 "
