@@ -44,8 +44,9 @@ for_window [app_id="org.jointhefreeworld.metainfog"] floating enable
 
 ## THESE ARE SWAYFX SETTINGS !!!
 # Visual Settings
-#gaps inner 12
-#gaps outer 8
+default_border pixel 1
+gaps inner 12
+gaps outer 8
 #corner_radius 12
 #shadows enable
 #blur enable

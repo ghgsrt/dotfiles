@@ -205,33 +205,3 @@ function short () {
 function weather(){
   curl -s "wttr.in/$1?m1" | head -17
 }
-
-
-function sysinfo () {
-  printf "CPU: "
-  cat /proc/cpuinfo | grep "model name" | head -1 | awk '{ for (i = 4; i <= NF; i++) printf "%s ", $i }'
-  printf "\n"
-
-  cat /etc/issue | awk '{ printf "OS: %s %s %s %s | " , $1 , $2 , $3 , $4 }'
-  uname -a | awk '{ printf "Kernel: %s " , $3 }'
-  uname -m | awk '{ printf "%s | " , $1 }'
-  printf "\n"
-  uptime | awk '{ printf "Uptime: %s %s %s", $3, $4, $5 }' | sed 's/,//g'
-}
-
-#create a package list file
-function backup(){
-    echo "Creating backup..."
-    pacman -Qqe > pacmanBackup.lst
-    echo "Backed up normal repositories..."
-    pacman -Qqm > pacmanAURBackup.lst
-    echo "Backed up AUR repositories..."
-    printf "\n"
-    echo "Done!, use cat pacman.lst | xargs pacman -S --needed --noconfirm to restore"
-}
-
-#delete pacman lock
-function unlock(){
-    sudo rm /var/lib/pacman/db.lck
-    echo "Deleted db.lck!"
-}
