@@ -42,15 +42,16 @@ for_window [app_id="org.gnome.Calculator"] floating enable
 for_window [app_id="pavucontrol"] floating enable
 for_window [app_id="org.jointhefreeworld.metainfog"] floating enable
 
+## THESE ARE SWAYFX SETTINGS !!!
 # Visual Settings
-gaps inner 12
-gaps outer 8
-corner_radius 12
-shadows enable
-blur enable
-default_dim_inactive 0.2
-dim_inactive_colors.unfocused #000000FF
-dim_inactive_colors.urgent #900000FF
+#gaps inner 12
+#gaps outer 8
+#corner_radius 12
+#shadows enable
+#blur enable
+#default_dim_inactive 0.2
+#dim_inactive_colors.unfocused #000000FF
+#dim_inactive_colors.urgent #900000FF
 
 # Window Colors
 # class                 border    background  text      indicator  child_border
@@ -144,14 +145,14 @@ mode "resize" {
 bindsym $mod+Shift+r mode "resize"
 
 # Startup Programs
-exec lxsession
+#exec lxsession
 exec mako
-exec emacs --daemon
-exec dbus-update-activation-environment --all
-exec waybar
-exec transmission-daemon
+#exec emacs --daemon
+exec dbus-update-activation-environment --all --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+#exec waybar
+#exec transmission-daemon
 exec ${TERMINAL:-foot} -s
-exec swww-daemon
+#exec swww-daemon
 
 # Cursor configuration
 seat seat0 xcursor_theme Yaru 24
