@@ -59,7 +59,7 @@ setup_system() {
     sudo mkdir -p "$XDG_DIR"
 
     # Link dotfiles to /etc/xdg
-    sudo cp -rs "$DOTFILES_DIR/.config/"* "$XDG_DIR/"
+    sudo cp -rs "$DOTFILES_DIR/"* "$XDG_DIR/"
 
     # Handle non-XDG compliant configs
     create_symlink "$XDG_DIR/zsh/.zshenv" "/etc/zshenv"
