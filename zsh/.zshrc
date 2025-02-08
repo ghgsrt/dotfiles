@@ -97,7 +97,7 @@ srec_nix() {
 		echo "srec: using current system $SYSTEM"
 	fi
 	cd $IX_CONFIG_DIR
-	should_sudo nixos-rebuild switch --flake .#${1-$SYSTEM}
+	should_sudo nixos-rebuild switch --flake .#${1-$SYSTEM} --impure
 	cd -
 }
 hrec_nix() {
