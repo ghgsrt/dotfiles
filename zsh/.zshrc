@@ -16,17 +16,15 @@ if [ -z "$TMUX" ]; then
 fi
 
 should_sudo() {
-    local cmd="$*"  # Get all arguments as a single string
-
 	if [ "$USER" = "root" ]; then
-        $cmd
+        $@
 		return
     fi
 
 	# Check if user is in wheel group
     if groups "$USER" | grep -q "\bwheel\b"; then
-	   echo "Sudoing $cmd"
-        sudo $cmd
+	   echo "Sudoing $@"
+        sudo "$@"
     fi
 }
 
