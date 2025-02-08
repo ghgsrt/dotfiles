@@ -45,8 +45,8 @@ for_window [app_id="org.jointhefreeworld.metainfog"] floating enable
 ## THESE ARE SWAYFX SETTINGS !!!
 # Visual Settings
 default_border pixel 1
-gaps inner 12
-gaps outer 8
+gaps inner 8
+gaps outer 0
 #corner_radius 12
 #shadows enable
 #blur enable
@@ -75,9 +75,10 @@ bindsym $mod+Shift+i exec $bloated_browser
 bindsym $mod+e exec $editor
 bindsym $mod+minus exec $password_manager
 bindsym $mod+Shift+c reload
-bindsym $mod+Shift+e exec swaynag -t warning \
-    -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' \
-    -B 'Yes, exit sway' 'swaymsg exit'
+bindsym $mod+Shift+e exit
+#exec swaynag -t warning \
+#    -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' \
+#    -B 'Yes, exit sway' 'swaymsg exit'
 
 # Focus and Movement
 bindsym $mod+$left focus left
