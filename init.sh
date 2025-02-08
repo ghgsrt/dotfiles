@@ -78,17 +78,17 @@ recursive_symlink() {
         should_sudo mkdir -p "$dst_dir"
     fi
 
-	local prune_expr=""
+	local exclude_expr=""
     for excl in "${exclusions[@]}"; do
-        if [ -n "$prune_expr" ]; then
-            prune_expr="$prune_expr -o "
+        if [ -n "$exclude_expr" ]; then
+            exclude_expr="$exclude_expr -o "
         fi
-        prune_expr="$prune_expr -name $excl"
+        exclude_expr="$exclude_expr -path \"$src_dir/$excl/*\" -o -path \"$src_dir/$excl\""
     done
 
-    # Use find with prune if exclusions exist
-    if [ -n "$prune_expr" ]; then
-        find "$src_dir" -type f \( $prune_expr \) -prune -o -type f -print0
+    # Use find with exclusion if paths exist
+    if [ -n "$exclude_expr" ]; then
+        eval "find \"$src_dir\" -type f ! \( $exclude_expr \) -print0"
     else
         find "$src_dir" -type f -print0
     fi | while IFS= read -r -d $'\0' src_path; do
