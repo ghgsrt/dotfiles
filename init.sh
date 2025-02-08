@@ -164,7 +164,7 @@ setup_user() {
 
     # If user-specific configs exist, link them
     if [ -d "$DOTFILES_DIR/users/$USER" ]; then
-        cp -rs "$DOTFILES_DIR/users/$USER/"* "$HOME/.config/"
+        recursive_symlink "$DOTFILES_DIR/users/$USER" "$HOME/.config"
     fi
 }
 
