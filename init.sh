@@ -65,6 +65,7 @@ create_symlink() {
 recursive_symlink() {
     local src_dir="$1"
     local dst_dir="$2"
+	local -a exclusions=("${@:3}") # Get all arguments after the first two as exclusions
 
     # Ensure source directory exists
     if [ ! -d "$src_dir" ]; then
@@ -77,8 +78,20 @@ recursive_symlink() {
         should_sudo mkdir -p "$dst_dir"
     fi
 
-    # Use find to handle recursive traversal
-    find "$src_dir" -type f -print0 | while IFS= read -r -d $'\0' src_path; do
+	local prune_expr=""
+    for excl in "${exclusions[@]}"; do
+        if [ -n "$prune_expr" ]; then
+            prune_expr="$prune_expr -o "
+        fi
+        prune_expr="$prune_expr -name $excl"
+    done
+
+    # Use find with prune if exclusions exist
+    if [ -n "$prune_expr" ]; then
+        find "$src_dir" -type f \( $prune_expr \) -prune -o -type f -print0
+    else
+        find "$src_dir" -type f -print0
+    fi | while IFS= read -r -d $'\0' src_path; do
         # Calculate relative path from source directory
         local rel_path="${src_path#$src_dir/}"
         local dst_path="$dst_dir/$rel_path"
@@ -86,13 +99,14 @@ recursive_symlink() {
         # Create parent directories in destination if needed
         local dst_parent_dir=$(dirname "$dst_path")
         if [ ! -d "$dst_parent_dir" ]; then
-            should_sudo mkdir -p "$dst_parent_dir"
+            sudo mkdir -p "$dst_parent_dir"
         fi
 
         create_symlink "$src_path" "$dst_path"
     done
 }
 
+exclusions=(".git" "README.md" "LICENSE" ".github" ".gitignore" "init.sh" "fonts" "users")
 setup_system() {
     echo "Setting up system configuration..."
 
@@ -100,7 +114,7 @@ setup_system() {
     should_sudo mkdir -p "$XDG_DIR"
 
     # Link dotfiles to /etc/xdg
-    recursive_symlink "$DOTFILES_DIR" "$XDG_DIR"
+	recursive_symlink "$DOTFILES_DIR" "$XDG_DIR" "${exclusions[@]}"
 
     # Handle non-XDG compliant configs
     # Add other non-XDG compliant symlinks here
