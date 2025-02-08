@@ -122,6 +122,7 @@ setup_system() {
 	recursive_symlink "$DOTFILES_DIR" "$XDG_DIR" "${exclusions[@]}"
 
     # Handle non-XDG compliant configs
+	create_symlink "$DOTFILES_DIR/tmux/tmux.conf" "/etc/tmux.conf"
     # Add other non-XDG compliant symlinks here
 
 	# Ensure /etc/zshenv does not already exist
@@ -152,7 +153,6 @@ export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 source "$XDG_DIR/zsh/.zshenv"
 source "$XDG_DIR/zsh/.zshrc"
 # source "$XDG_DIR/zsh/.zprofile"
-source "$XDG_DIR/tmux/tmux.conf"
 EOF
 
     # Ensure the generated file is readable
