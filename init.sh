@@ -23,6 +23,15 @@ DOTFILES_DIR=$(dirname "$(readlink -f "$0")")
 echo "Using dotfiles directory: $DOTFILES_DIR"
 XDG_DIR="/etc/xdg"
 
+should_sudo() {
+    local cmd="$*"  # Get all arguments as a single string
+    if [ "$USER" != "root" ]; then
+        sudo $cmd
+    else
+        $cmd
+    fi
+}
+
 create_symlink() {
     local src="$1"
     local dst="$2"
@@ -42,7 +51,7 @@ create_symlink() {
         else
             # If it's pointing somewhere else, replace it
             echo "Replacing existing symlink $dst"
-            sudo rm "$dst"
+            should_sudo rm "$dst"
         fi
     elif [ -e "$dst" ]; then
         # If it's a regular file/directory, warn and skip
@@ -50,17 +59,48 @@ create_symlink() {
         return
     fi
 
-    sudo ln -sf "$src" "$dst"
+    should_sudo ln -sf "$src" "$dst"
+}
+
+recursive_symlink() {
+    local src_dir="$1"
+    local dst_dir="$2"
+
+    # Ensure source directory exists
+    if [ ! -d "$src_dir" ]; then
+        echo "Source directory $src_dir does not exist"
+        return 1
+    fi
+
+    # Create destination directory if it doesn't exist
+    if [ ! -d "$dst_dir" ]; then
+        should_sudo mkdir -p "$dst_dir"
+    fi
+
+    # Use find to handle recursive traversal
+    find "$src_dir" -mindepth 1 -print0 | while IFS= read -r -d $'\0' src_path; do
+        # Calculate relative path from source directory
+        local rel_path="${src_path#$src_dir/}"
+        local dst_path="$dst_dir/$rel_path"
+
+        # Create parent directories in destination if needed
+        local dst_parent_dir=$(dirname "$dst_path")
+        if [ ! -d "$dst_parent_dir" ]; then
+            should_sudo mkdir -p "$dst_parent_dir"
+        fi
+
+        create_symlink "$src_path" "$dst_path"
+    done
 }
 
 setup_system() {
     echo "Setting up system configuration..."
 
     # Ensure XDG directory exists
-    sudo mkdir -p "$XDG_DIR"
+    should_sudo mkdir -p "$XDG_DIR"
 
     # Link dotfiles to /etc/xdg
-    sudo cp -rs "$DOTFILES_DIR/"* "$XDG_DIR/"
+    recursive_symlink "$DOTFILES_DIR" "$XDG_DIR"
 
     # Handle non-XDG compliant configs
     # Add other non-XDG compliant symlinks here
@@ -72,7 +112,7 @@ setup_system() {
 	fi
 
 	# Ensure generated directory exists
-	sudo mkdir -p "${DOTFILES_DIR}/generated"
+	should_sudo mkdir -p "${DOTFILES_DIR}/generated"
 
 	# Generate system zshenv for default environment variables
 	cat > "${DOTFILES_DIR}/generated/system-zshenv" << EOF
