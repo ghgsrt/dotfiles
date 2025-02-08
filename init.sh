@@ -143,9 +143,11 @@ export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 
+# source non-XDG compliant configs (typically those that want to exist under /etc)
 source "$XDG_DIR/zsh/.zshenv"
 source "$XDG_DIR/zsh/.zshrc"
 # source "$XDG_DIR/zsh/.zprofile"
+source "$XDG_DIR/tmux/tmux.conf"
 EOF
 
     # Ensure the generated file is readable
