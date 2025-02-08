@@ -23,7 +23,6 @@ should_sudo() {
 
 	# Check if user is in wheel group
     if groups "$USER" | grep -q "\bwheel\b"; then
-	   echo "Sudoing $@"
         sudo "$@"
     fi
 }
