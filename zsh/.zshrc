@@ -15,7 +15,23 @@ if [ -z "$TMUX" ]; then
   exec tmux
 fi
 
-alias ls='ls -ACFL --color=auto'
+should_sudo() {
+    local cmd="$*"  # Get all arguments as a single string
+
+	if [ "$USER" = "root" ]; then
+        $cmd
+		return
+    fi
+
+	# Check if user is in wheel group
+    if groups "$USER" | grep -q "\bwheel\b"; then
+        sudo $cmd
+    fi
+}
+
+alias git='should_sudo git'
+
+alias ls='should_sudo ls -ACFL --color=auto'
 alias ll='ls -l'  # list format
 alias lt='ls -t'  # sort by time
 alias la='ls -u'  # sort by last access
@@ -42,15 +58,6 @@ alias redots='rerun_init'
 
 alias srec='echo Error: your current distro does not support reconfiguration'
 alias hrec='echo Error: your current distro does not support reconfiguration'
-
-should_sudo() {
-    local cmd="$*"  # Get all arguments as a single string
-    if [ "$USER" != "root" ]; then
-        sudo $cmd
-    else
-        $cmd
-    fi
-}
 
 srec_guix() {
 	if [ -z "$1" ]; then
