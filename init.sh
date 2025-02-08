@@ -54,7 +54,7 @@ create_symlink() {
             should_sudo rm "$dst"
         fi
     elif [ -e "$dst" ]; then
-        # If it's a regular file/directory, warn and skip
+        # If it's a regular file, warn and skip
         echo "Warning: $dst exists and is not a symlink"
         return
     fi
@@ -78,7 +78,7 @@ recursive_symlink() {
     fi
 
     # Use find to handle recursive traversal
-    find "$src_dir" -mindepth 1 -print0 | while IFS= read -r -d $'\0' src_path; do
+    find "$src_dir" -type f -print0 | while IFS= read -r -d $'\0' src_path; do
         # Calculate relative path from source directory
         local rel_path="${src_path#$src_dir/}"
         local dst_path="$dst_dir/$rel_path"
