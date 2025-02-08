@@ -153,7 +153,7 @@ exec mako
 exec dbus-update-activation-environment --all --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 #exec waybar
 exec transmission-daemon
-exec ${TERMINAL:-foot} -s
+exec ${TERMINAL:-st} -s
 #exec swww-daemon
 
 # Cursor configuration
