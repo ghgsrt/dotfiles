@@ -24,16 +24,14 @@ echo "Using dotfiles directory: $DOTFILES_DIR"
 XDG_DIR="/etc/xdg"
 
 should_sudo() {
-    local cmd="$*"  # Get all arguments as a single string
-
 	if [ "$USER" = "root" ]; then
-        $cmd
+        $@
 		return
     fi
 
 	# Check if user is in wheel group
     if groups "$USER" | grep -q "\bwheel\b"; then
-        sudo $cmd
+        sudo "$@"
     fi
 }
 
