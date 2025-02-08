@@ -61,18 +61,19 @@ srec_guix() {
 	if [ -z "$1" ]; then
         echo "srec: using current system $SYSTEM"
     fi
-    guix system -L $IX_CONFIG_DIR reconfigure $IX_CONFIG_DIR/system/${1-$SYSTEM}.scm
+    should_sudo guix system -L $IX_CONFIG_DIR reconfigure $IX_CONFIG_DIR/system/${1-$SYSTEM}.scm
 }
 hrec_guix() {
 	if [ -z "$1" ]; then
 		echo "hrec: using current home $HOME_NAME"
 	fi
+	#! DO NOT SUDO ON HOME RECONFIGURES
 	guix home -L $IX_CONFIG_DIR reconfigure $IX_CONFIG_DIR/home/${1-$HOME_NAME}.scm
 }
 
 if [ "$DISTRO" = "guix" ]; then
-	alias srec='should_sudo srec_guix'
-	alias hrec='hrec_guix' #! DO NOT SUDO ON HOME RECONFIGURES
+	alias srec='srec_guix'
+	alias hrec='hrec_guix'
 
 	alias pull='should_sudo guix pull'
 	alias herd='should_sudo herd'
@@ -96,7 +97,7 @@ srec_nix() {
 		echo "srec: using current system $SYSTEM"
 	fi
 	cd $IX_CONFIG_DIR
-	nixos-rebuild switch --flake .#${1-$SYSTEM}
+	should_sudo nixos-rebuild switch --flake .#${1-$SYSTEM}
 	cd -
 }
 hrec_nix() {
@@ -104,13 +105,14 @@ hrec_nix() {
 		echo "hrec: using current home $HOME_NAME"
 	fi
 	cd $IX_CONFIG_DIR
+	#! DO NOT SUDO ON HOME RECONFIGURES
 	home-manager switch --flake .#${1-$HOME_NAME}
 	cd -
 }
 
 if [ "$DISTRO" = "nix" ]; then
-	alias srec='should_sudo srec_nix'
-	alias hrec='hrec_nix' #! DO NOT SUDO ON HOME RECONFIGURES
+	alias srec='srec_nix'
+	alias hrec='hrec_nix'
 
 	alias upflake='nix flake update'
 
