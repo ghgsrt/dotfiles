@@ -62,9 +62,6 @@ setup_system() {
     sudo cp -rs "$DOTFILES_DIR/"* "$XDG_DIR/"
 
     # Handle non-XDG compliant configs
-    create_symlink "$XDG_DIR/zsh/.zshenv" "/etc/zshenv"
-    create_symlink "$XDG_DIR/zsh/.zshrc" "/etc/zshrc"
-    create_symlink "$XDG_DIR/zsh/.zprofile" "/etc/zprofile"
     # Add other non-XDG compliant symlinks here
 
 	# Ensure /etc/zshenv does not already exist
@@ -90,6 +87,10 @@ export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 
 export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+
+source "$XDG_DIR/zsh/.zshenv"
+source "$XDG_DIR/zsh/.zshrc"
+# source "$XDG_DIR/zsh/.zprofile"
 EOF
 
     # Ensure the generated file is readable
