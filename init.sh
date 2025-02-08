@@ -20,6 +20,7 @@ MODE=${3:-"all"}  # all, system, or user
 
 # Paths
 DOTFILES_DIR=$(dirname "$(readlink -f "$0")")
+echo "Using dotfiles directory: $DOTFILES_DIR"
 XDG_DIR="/etc/xdg"
 
 create_symlink() {
