@@ -106,13 +106,13 @@ hrec_nix() {
 	fi
 	cd $IX_CONFIG_DIR
 	#! DO NOT SUDO ON HOME RECONFIGURES
-	HOME=$HOME USER=$USER home-manager switch --flake .#${1-$HOME_NAME}
+	home-manager switch --flake .#${1-$HOME_NAME}
 	cd -
 }
 
 if [ "$DISTRO" = "nix" ]; then
 	alias srec='srec_nix'
-	alias hrec='hrec_nix'
+	alias hrec='HOME=$HOME USER=$USER hrec_nix'
 
 	alias upflake='nix flake update'
 
