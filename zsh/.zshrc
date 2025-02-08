@@ -25,6 +25,7 @@ should_sudo() {
 
 	# Check if user is in wheel group
     if groups "$USER" | grep -q "\bwheel\b"; then
+	   echo "Sudoing $cmd"
         sudo $cmd
     fi
 }
@@ -72,7 +73,7 @@ hrec_guix() {
 	guix home -L $IX_CONFIG_DIR reconfigure $IX_CONFIG_DIR/home/${1-$HOME_NAME}.scm
 }
 
-if [ "$DISTRO" == "guix" ]; then
+if [ "$DISTRO" = "guix" ]; then
 	alias srec='should_sudo srec_guix'
 	alias hrec='hrec_guix' #! DO NOT SUDO ON HOME RECONFIGURES
 
@@ -110,7 +111,7 @@ hrec_nix() {
 	cd -
 }
 
-if [ "$DISTRO" == "nix" ]; then
+if [ "$DISTRO" = "nix" ]; then
 	alias srec='should_sudo srec_nix'
 	alias hrec='hrec_nix' #! DO NOT SUDO ON HOME RECONFIGURES
 
