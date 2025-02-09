@@ -121,6 +121,8 @@ setup_system() {
 
     # Handle non-XDG compliant configs
 	create_symlink "$DOTFILES_DIR/tmux/tmux.conf" "/etc/tmux.conf"
+
+	should_sudo mkdir -p "/etc/sway"
 	create_symlink "$DOTFILES_DIR/sway/config" "/etc/sway/config"
     # Add other non-XDG compliant symlinks here
 
