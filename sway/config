@@ -150,7 +150,7 @@ bindsym $mod+Shift+r mode "resize"
 #exec lxsession
 exec mako
 #exec emacs --daemon
-exec dbus-update-activation-environment --all
+exec dbus-update-activation-environment --all --systemd DISPLAY WAYLAND_DISPLAY
 #exec waybar
 exec transmission-daemon
 exec foot -s
