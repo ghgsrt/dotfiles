@@ -150,10 +150,10 @@ bindsym $mod+Shift+r mode "resize"
 #exec lxsession
 exec mako
 #exec emacs --daemon
-exec dbus-update-activation-environment --all --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+exec dbus-update-activation-environment --all
 #exec waybar
 exec transmission-daemon
-exec ${TERMINAL:-st} -s
+exec foot -s
 #exec swww-daemon
 
 # Cursor configuration
