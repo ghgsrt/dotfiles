@@ -109,7 +109,7 @@ recursive_symlink() {
     done
 }
 
-exclusions=(".git" "README.md" "LICENSE" ".github" ".gitignore" "init.sh" "fonts" "users")
+exclusions=(".git" "README.md" "LICENSE" ".github" ".gitignore" "init.sh" "fonts" "users" "tmux" "sway")
 setup_system() {
     echo "Setting up system configuration..."
 
@@ -121,6 +121,7 @@ setup_system() {
 
     # Handle non-XDG compliant configs
 	create_symlink "$DOTFILES_DIR/tmux/tmux.conf" "/etc/tmux.conf"
+	create_symlink "$DOTFILES_DIR/sway/config" "/etc/sway/config"
     # Add other non-XDG compliant symlinks here
 
 	# Ensure /etc/zshenv does not already exist
