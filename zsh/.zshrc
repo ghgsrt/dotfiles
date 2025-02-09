@@ -106,7 +106,7 @@ hrec_nix() {
 	fi
 	cd $IX_CONFIG_DIR
 	#! DO NOT SUDO ON HOME RECONFIGURES
-	home-manager switch --flake .#${1-$HOME_NAME}-${USER}
+	home-manager switch --flake .#${1-$HOME_NAME}-${USER} --impure
 	cd -
 }
 
