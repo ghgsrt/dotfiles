@@ -1,6 +1,6 @@
 source $BOS_HOME_PROFILE/share/zsh/plugins/zsh-antigen/antigen.zsh
 
-echo "Loading zsh-antigen plugins..."
+#echo "Loading zsh-antigen plugins..."
 
 antigen use oh-my-zsh
 
@@ -10,6 +10,18 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 antigen theme romkatv/powerlevel10k
 
 antigen apply
+
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of /zsh/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
+
+# To customize prompt, run `p10k configure` or edit /zsh/.p10k.zsh.
+#[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+
 
 if [ -z "$TMUX" ]; then
   exec tmux

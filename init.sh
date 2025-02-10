@@ -153,6 +153,10 @@ export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 # source non-XDG compliant shell configs
 # (typically those that want to exist under /etc, but may conflict if symlinked to /etc)
 source "$XDG_DIR/zsh/.zshenv"
+
+source "$XDG_DIR/zsh/p10k-instant-prompt-root.zsh"
+source "$XDG_DIR/zsh/.p10k.zsh"
+
 source "$XDG_DIR/zsh/.zshrc"
 # source "$XDG_DIR/zsh/.zprofile"
 EOF
