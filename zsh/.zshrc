@@ -1,4 +1,4 @@
-source $PROFILE/share/zsh/plugins/zsh-antigen/antigen.zsh
+source $BOS_HOME_PROFILE/share/zsh/plugins/zsh-antigen/antigen.zsh
 
 echo "Loading zsh-antigen plugins..."
 
@@ -59,16 +59,16 @@ alias hrec='echo Error: your current distro does not support reconfiguration'
 
 srec_guix() {
 	if [ -z "$1" ]; then
-        echo "srec: using current system $SYSTEM"
+        echo "srec: using current system '$SYSTEM'"
     fi
-    should_sudo guix system -L $IX_CONFIG_DIR reconfigure $IX_CONFIG_DIR/system/${1-$SYSTEM}.scm
+    should_sudo guix system -L $BOS_CONFIG_DIR reconfigure $BOS_CONFIG_DIR/system/${1-$SYSTEM}.scm
 }
 hrec_guix() {
 	if [ -z "$1" ]; then
-		echo "hrec: using current home $HOME_NAME"
+		echo "hrec: using current home '$BOS_HOME_NAME'"
 	fi
 	#! DO NOT SUDO ON HOME RECONFIGURES
-	guix home -L $IX_CONFIG_DIR reconfigure $IX_CONFIG_DIR/home/${1-$HOME_NAME}.scm
+	guix home -L $BOS_CONFIG_DIR reconfigure $BOS_CONFIG_DIR/home/${1-$BOS_HOME_NAME}.scm
 }
 
 if [ "$DISTRO" = "guix" ]; then
@@ -94,19 +94,19 @@ fi
 
 srec_nix() {
 	if [ -z "$1" ]; then
-		echo "srec: using current system $SYSTEM"
+		echo "srec: using current system '$SYSTEM'"
 	fi
-	cd $IX_CONFIG_DIR
+	cd $BOS_CONFIG_DIR
 	should_sudo nixos-rebuild switch --flake .#${1-$SYSTEM} --impure
 	cd -
 }
 hrec_nix() {
 	if [ -z "$1" ]; then
-		echo "hrec: using current home $HOME_NAME"
+		echo "hrec: using current home '$BOS_HOME_NAME'"
 	fi
-	cd $IX_CONFIG_DIR
+	cd $BOS_CONFIG_DIR
 	#! DO NOT SUDO ON HOME RECONFIGURES
-	home-manager switch --flake .#${1-$HOME_NAME}-${USER} --impure
+	home-manager switch --flake .#${1-$BOS_HOME_NAME}-${USER} --impure
 	cd -
 }
 
