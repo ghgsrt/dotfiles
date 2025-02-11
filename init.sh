@@ -145,15 +145,15 @@ export BOS_CONFIG_DIR="$(dirname "$DOTFILES_DIR")"
 export SYSTEM="${SYSTEM}"
 export DISTRO="${DISTRO}"
 
-export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_CONFIG_HOME="\${XDG_CONFIG_HOME:-\$HOME/.config}"
 
-export XDG_CONFIG_DIRS="${DOTFILES_DIR}/home/base:${XDG_CONFIG_DIRS}"
-if [ ! -d "${DOTFILES_DIR}/$USER" ]; then
-	export XDG_CONFIG_DIRS="${DOTFILES_DIR}/home/${USER}:${XDG_CONFIG_DIRS}"
+export XDG_CONFIG_DIRS="\${DOTFILES_DIR}/home/base:\${XDG_CONFIG_DIRS}"
+if [ ! -d "\${DOTFILES_DIR}/\$USER" ]; then
+	export XDG_CONFIG_DIRS="\${DOTFILES_DIR}/home/\${USER}:\${XDG_CONFIG_DIRS}"
 fi
-export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS}:${DOTFILES_DIR}/base"
+export XDG_CONFIG_DIRS="\${XDG_CONFIG_DIRS}:\${DOTFILES_DIR}/base"
 
-#export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+#export ZDOTDIR="\${XDG_CONFIG_HOME}/zsh"
 
 # source non-XDG compliant shell configs
 # (typically those that want to exist under /etc, but may conflict if symlinked to /etc)
@@ -167,10 +167,11 @@ export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS}:${DOTFILES_DIR}/base"
 EOF
 
     # Ensure the generated file is readable
-    should_sudo chmod 644 "${DOTFILES_DIR}/generated/system-zshenv"
+    should_sudo chmod 644 "${DOTFILES_DIR}/generated/system-zlogin"
 
-    # Link it to /etc/zshenv
-    create_symlink "${DOTFILES_DIR}/generated/system-zshenv" "/etc/zshenv"
+    # Link it to /etc/zlogin
+	# (MUST BE ZLOGIN, otherwise guix bash profile will overwrite the XDG_CONFIG_DIRS)
+    create_symlink "${DOTFILES_DIR}/generated/system-zlogin" "/etc/zlogin"
 
 }
 
