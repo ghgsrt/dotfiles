@@ -114,16 +114,16 @@ setup_system() {
     echo "Setting up system configuration..."
 
     # Ensure XDG directory exists
-    should_sudo mkdir -p "$XDG_DIR"
+    # should_sudo mkdir -p "$XDG_DIR"
 
     # Link dotfiles to /etc/xdg
-	recursive_symlink "$DOTFILES_DIR" "$XDG_DIR" "${exclusions[@]}"
+	# recursive_symlink "$DOTFILES_DIR" "$XDG_DIR" "${exclusions[@]}"
 
     # Handle non-XDG compliant configs
-	create_symlink "$DOTFILES_DIR/tmux/tmux.conf" "/etc/tmux.conf"
+	# create_symlink "$DOTFILES_DIR/tmux/tmux.conf" "/etc/tmux.conf"
 
-	should_sudo mkdir -p "/etc/sway"
-	create_symlink "$DOTFILES_DIR/sway/config" "/etc/sway/config"
+	# should_sudo mkdir -p "/etc/sway"
+	# create_symlink "$DOTFILES_DIR/sway/config" "/etc/sway/config"
     # Add other non-XDG compliant symlinks here
 
 	# Ensure /etc/zshenv does not already exist
@@ -146,18 +146,23 @@ export SYSTEM="${SYSTEM}"
 export DISTRO="${DISTRO}"
 
 export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
-export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS:-/etc/xdg}"
 
-export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
+export XDG_CONFIG_DIRS="${DOTFILES_DIR}/home/base:${XDG_CONFIG_DIRS}"
+if [ ! -d "${DOTFILES_DIR}/$USER" ]; then
+	export XDG_CONFIG_DIRS="${DOTFILES_DIR}/home/${USER}:${XDG_CONFIG_DIRS}"
+fi
+export XDG_CONFIG_DIRS="${XDG_CONFIG_DIRS}:${DOTFILES_DIR}/base"
+
+#export ZDOTDIR="${XDG_CONFIG_HOME}/zsh"
 
 # source non-XDG compliant shell configs
 # (typically those that want to exist under /etc, but may conflict if symlinked to /etc)
-source "$XDG_DIR/zsh/.zshenv"
+#source "$XDG_DIR/zsh/.zshenv"
 
-source "$XDG_DIR/zsh/p10k-instant-prompt-root.zsh"
-source "$XDG_DIR/zsh/.p10k.zsh"
+#source "$XDG_DIR/zsh/p10k-instant-prompt-root.zsh"
+#source "$XDG_DIR/zsh/.p10k.zsh"
 
-source "$XDG_DIR/zsh/.zshrc"
+#source "$XDG_DIR/zsh/.zshrc"
 # source "$XDG_DIR/zsh/.zprofile"
 EOF
 
