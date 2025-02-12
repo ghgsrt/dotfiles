@@ -2,12 +2,16 @@ source $BOS_HOME_PROFILE/share/zsh/plugins/zsh-antigen/antigen.zsh
 
 #echo "Loading zsh-antigen plugins..."
 
+source ~/.config/zsh/.p10k.zsh
+
 antigen use oh-my-zsh
 
 antigen bundle git
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen theme romkatv/powerlevel10k
+
+antigen bundle sainnhe/dotfiles /.zsh-theme/gruvbox-material-dark.zsh
 
 antigen apply
 
@@ -20,7 +24,7 @@ antigen apply
 #fi
 
 # To customize prompt, run `p10k configure` or edit /zsh/.p10k.zsh.
-#[[ ! -f /zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
+#[[ ! -f ~/.config/zsh/.p10k.zsh ]] || source ~/.config/zsh/.p10k.zsh
 
 
 if [ -z "$TMUX" ]; then
@@ -83,18 +87,21 @@ hrec_guix() {
 	guix home -L $BOS_CONFIG_DIR reconfigure $BOS_CONFIG_DIR/home/${1-$BOS_HOME_NAME}.scm
 }
 
+if [ "$BOS_HOME_TYPE" = "guix" ]; then
+	alias hrec='hrec_guix'
+	alias hdesc='home describe'
+	alias home='guix home'
+fi
+
 if [ "$DISTRO" = "guix" ]; then
 	alias srec='srec_guix'
-	alias hrec='hrec_guix'
 
 	alias pull='should_sudo guix pull'
 	alias herd='should_sudo herd'
 	alias sdesc='system describe'
-	alias hdesc='home describe'
 
 	alias package='guix package'
 	alias system='guix system'
-	alias home='guix home'
 
 	alias update='pull && should_sudo package -u'
 	alias install='package -i'
@@ -122,11 +129,13 @@ hrec_nix() {
 	cd -
 }
 
+if [ "$BOS_HOME_TYPE" = "nix" ]; then
+	alias hrec='hrec_nix'
+	alias home='home-manager'
+fi
+
 if [ "$DISTRO" = "nix" ]; then
 	alias srec='srec_nix'
-	alias hrec='hrec_nix'
 
 	alias upflake='nix flake update'
-
-	alias home='home-manager'
 fi

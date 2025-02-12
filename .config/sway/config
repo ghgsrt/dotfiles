@@ -14,7 +14,7 @@ set $windower rofi -show window
 set $password_manager ~/.nix-profile/bin/1password
 set $gnome_schema org.gnome.desktop.interface
 
-output * background /home/bosco/.guixos-sway/files/assets/wallpapers/clock-subway.jpg fill
+output * background /wallpapers/eva/de-necked.png fill
 
 # Locker configuration
 set $locker swaylock --screenshots \
