@@ -2,7 +2,7 @@ source $BOS_HOME_PROFILE/share/zsh/plugins/zsh-antigen/antigen.zsh
 
 #echo "Loading zsh-antigen plugins..."
 
-source ~/.config/zsh/.p10k.zsh
+#source ~/.config/zsh/.p10k.zsh
 
 antigen use oh-my-zsh
 
@@ -11,7 +11,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 antigen theme romkatv/powerlevel10k
 
-antigen bundle sainnhe/dotfiles /.zsh-theme/gruvbox-material-dark.zsh
+antigen bundle sainnhe/dotfiles .zsh-theme/gruvbox-material-dark.zsh
 
 antigen apply
 
